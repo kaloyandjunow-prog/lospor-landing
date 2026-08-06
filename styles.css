@@ -4,6 +4,10 @@
   --ink-soft: #43534f;
   --paper: #f4f7f6;
   --white: #ffffff;
+  /* Card and panel background in the light-on-pale sections. Separate from
+     --white because --white is also literal white text on the already-dark
+     hero, open-source and footer bands, which must stay white in both themes. */
+  --surface: #ffffff;
   --line: #d8e0de;
   --dark: #071411;
   --dark-soft: #122521;
@@ -13,6 +17,33 @@
   --amber: #d99a35;
   --focus: #f7c65a;
   --content: 1180px;
+}
+
+/**
+ * Dark theme.
+ *
+ * Follows the operating system and nothing else: `_headers` sets
+ * `script-src 'none'`, so there is no way to store or restore a manual choice,
+ * and a toggle that forgets itself on every page load is worse than none. The
+ * page is CSP-clean and this costs no JavaScript.
+ *
+ * Only the pale sections invert. The hero, open-source band and footer are
+ * already dark by design and keep their palette, which is why the two themes
+ * differ less than the variable list suggests.
+ */
+@media (prefers-color-scheme: dark) {
+  :root {
+    color-scheme: dark;
+    --ink: #e6efec;
+    --ink-soft: #9db3ad;
+    --paper: #0a1714;
+    --surface: #10211d;
+    --line: #1e3b34;
+    /* Lifted for contrast against the darker surfaces; the light-theme teal
+       fails against #10211d. */
+    --teal: #2fa79c;
+    --teal-dark: #24867e;
+  }
 }
 
 *, *::before, *::after {
@@ -49,7 +80,7 @@ a:focus-visible {
   left: 12px;
   z-index: 100;
   padding: 10px 14px;
-  background: var(--white);
+  background: var(--surface);
   color: var(--ink);
   font-weight: 700;
   transform: translateY(-160%);
@@ -118,6 +149,22 @@ a:focus-visible {
   padding: 9px 14px;
   border: 1px solid rgba(255, 255, 255, 0.56);
   border-radius: 6px;
+  color: var(--white);
+}
+
+/* The other language. A plain link to a real URL — there is no JavaScript on
+   this page, so the two locales are two static documents. */
+.nav-links .lang-switch {
+  padding: 7px 11px;
+  border: 1px solid rgba(255, 255, 255, 0.28);
+  border-radius: 999px;
+  font-size: 13px;
+  letter-spacing: 0.01em;
+  white-space: nowrap;
+}
+
+.nav-links .lang-switch:hover {
+  border-color: rgba(255, 255, 255, 0.62);
   color: var(--white);
 }
 
@@ -311,7 +358,7 @@ h1 {
   padding: 34px;
   border: 1px solid var(--line);
   border-radius: 8px;
-  background: var(--white);
+  background: var(--surface);
 }
 
 .product-clinical {
@@ -365,7 +412,7 @@ h1 {
   border: 1px solid var(--line);
   border-radius: 8px;
   overflow: hidden;
-  background: var(--white);
+  background: var(--surface);
 }
 
 .support-link {
@@ -414,7 +461,7 @@ h1 {
 }
 
 .workflow {
-  background: var(--white);
+  background: var(--surface);
   border-top: 1px solid var(--line);
   border-bottom: 1px solid var(--line);
 }
@@ -502,7 +549,10 @@ h1 {
 
 .button-light {
   background: var(--white);
-  color: var(--ink);
+  /* Not --ink: this button sits on the dark open-source band and keeps a white
+     background in both themes, so its label must stay dark. --ink inverts with
+     the theme and turned this into white-on-white. */
+  color: var(--dark);
 }
 
 .button-light:hover {
@@ -562,7 +612,9 @@ h1 {
 }
 
 @media (max-width: 900px) {
-  .nav-links > a:not(.nav-action) {
+  /* The language switch stays on small screens: it is the only way to reach
+     the other locale, so hiding it would strand a reader in the wrong one. */
+  .nav-links > a:not(.nav-action):not(.lang-switch) {
     display: none;
   }
 

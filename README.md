@@ -11,12 +11,39 @@ Public entry point for the LOSPOR ecosystem at
 - Documentation: [docs.lospor.org](https://docs.lospor.org)
 - OpenAPI contract: [api.lospor.org/openapi.json](https://api.lospor.org/openapi.json)
 
+## Languages
+
+Bulgarian is the default and is served at `/`. English is served at `/en/`.
+
+Both are generated as complete static documents at build time from
+`content.mjs` — there is no client-side language switch, because `_headers`
+sets `script-src 'none'` and this page ships no JavaScript at all. The switch in
+the header is an ordinary link between two real URLs, which also gives each
+locale its own `lang`, canonical, `hreflang` alternates and sitemap entry.
+
+To change copy, edit `content.mjs`. To change structure, edit
+`scripts/render.mjs` — it renders both locales, so the two cannot drift apart.
+
+## Theme
+
+Light and dark, following the reader's operating system via
+`prefers-color-scheme`. There is no manual toggle: with no JavaScript there is
+nowhere to persist a choice, and a toggle that resets on every page load is
+worse than none.
+
+Only the pale sections invert. The hero, the open-source band and the footer are
+dark by design in both themes.
+
 ## Build
 
     npm run check
     npm run build
 
-The production-ready static output is written to dist/.
+The production-ready static output is written to dist/. `npm run check` also
+runs as part of the build and verifies both locales: required destinations,
+`lang`/canonical/`hreflang`, no copy leaking between languages, no Cyrillic on
+the English page, no script tags or inline handlers (which CSP would block),
+and that the dark theme is still present.
 
 ## Cloudflare Pages
 
