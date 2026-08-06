@@ -9,7 +9,6 @@ const root = join(dirname(fileURLToPath(import.meta.url)), "..");
 const requiredFiles = [
   "styles.css",
   "logo.png",
-  "hero-operating-room.jpg",
   "_headers",
   "robots.txt",
 ];

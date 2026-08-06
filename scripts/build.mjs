@@ -13,7 +13,6 @@ const output = join(root, "dist");
 const staticFiles = [
   "styles.css",
   "logo.png",
-  "hero-operating-room.jpg",
   "_headers",
   "robots.txt",
 ];
