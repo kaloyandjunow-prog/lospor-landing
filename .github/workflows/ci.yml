@@ -1,0 +1,23 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-node@v6
+        with:
+          node-version: 24
+          cache: npm
+      - run: npm ci
+      - run: npm run lint
+      # `check` guards the rendered output -- locales, canonicals, mojibake,
+      # no inline script. The build imports it, but running it on its own first
+      # makes a copy failure read as a copy failure rather than a build error.
+      - run: npm run check
+      - run: npm run build
