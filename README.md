@@ -45,6 +45,22 @@ runs as part of the build and verifies both locales: required destinations,
 the English page, no script tags or inline handlers (which CSP would block),
 and that the dark theme is still present.
 
+## LOSPOR Hospital install files
+
+lospor.org also publishes what a LOSPOR Hospital first installation needs:
+
+- `/install/losporctl-install.sh` — the bootstrap, copied verbatim from
+  `lospor-hospital/scripts/losporctl-install.sh`;
+- `/install/losporctl-install.sh.sha256` — its checksum, for checking by hand;
+- `/.well-known/lospor-release-key.txt` — the release signing key fingerprint.
+
+The checksum and fingerprint are derived from `install/losporctl-install.sh` at
+build time, so they can never disagree with the script. `npm run check` refuses
+a script whose key is not the LOSPOR release key. The bootstrap requires this
+fingerprint to be reachable and to match before it installs anything online,
+so update `install/` whenever the bootstrap changes, and deploy before a
+release that depends on the new copy.
+
 ## Cloudflare Pages
 
 - Build command: npm run build
