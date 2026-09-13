@@ -15,6 +15,16 @@ const requiredFiles = [
 
 await Promise.all(requiredFiles.map((file) => access(join(root, file))));
 
+// The Hospital bootstrap must carry exactly the fingerprint LOSPOR releases are
+// signed with; a changed copy here would publish a mismatch every install
+// refuses, or worse, a matching pair for the wrong key.
+const EXPECTED_RELEASE_KEY_FINGERPRINT = "SHA256:6ijXzNJFoSoxL1ejV7PaTcdffViP1dz+qqN0R0KsSwg";
+const { installFiles } = await import("./install-files.mjs");
+const install = await installFiles();
+if (install.fingerprint !== EXPECTED_RELEASE_KEY_FINGERPRINT) {
+  throw new Error(`install/losporctl-install.sh carries ${install.fingerprint}, expected ${EXPECTED_RELEASE_KEY_FINGERPRINT}`);
+}
+
 const css = await readFile(join(root, "styles.css"), "utf8");
 const pages = Object.fromEntries(LOCALES.map(locale => [locale, renderPage(locale)]));
 const source = Object.values(pages).join("\n") + "\n" + css;

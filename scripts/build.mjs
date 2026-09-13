@@ -3,6 +3,7 @@ import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 
 import { DEFAULT_LOCALE, LOCALE_PATH, LOCALES } from "../content.mjs";
+import { installFiles } from "./install-files.mjs";
 import { localeUrl, renderPage } from "./render.mjs";
 import "./check.mjs";
 
@@ -22,6 +23,12 @@ await mkdir(output, { recursive: true });
 
 for (const file of staticFiles) {
   await cp(join(root, file), join(output, file));
+}
+
+const install = await installFiles();
+for (const file of install.files) {
+  await mkdir(dirname(join(output, file.path)), { recursive: true });
+  await writeFile(join(output, file.path), file.contents);
 }
 
 // The default locale is the site root; the other gets its own directory, so
@@ -55,3 +62,4 @@ console.log(
   `Built ${staticFiles.length} static files and ${LOCALES.length} locales ` +
   `(default "${DEFAULT_LOCALE}" at /) in dist/`,
 );
+console.log(`Published Hospital release key fingerprint: ${install.fingerprint}`);
