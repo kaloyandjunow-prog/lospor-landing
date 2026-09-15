@@ -61,11 +61,15 @@ fingerprint to be reachable and to match before it installs anything online,
 so update `install/` whenever the bootstrap changes, and deploy before a
 release that depends on the new copy.
 
-## Cloudflare Pages
+## Deploy
 
-- Build command: npm run build
-- Build output directory: dist
-- Node.js version: 20 or later
+Cloudflare Workers with static assets, via Wrangler (see `wrangler.jsonc`), not
+Cloudflare Pages:
+
+```sh
+npm run build   # writes dist/
+npm run deploy  # build, then wrangler deploy
+```
 
 The custom domain is lospor.org.
 
