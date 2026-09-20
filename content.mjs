@@ -127,7 +127,7 @@ export const CONTENT = {
         { href: "https://docs.lospor.org", text: "Документация" },
         { href: "https://github.com/kaloyandjunow-prog", text: "GitHub" },
       ],
-      copyright: "&copy; 2026 LOSPOR &middot; AGPL-3.0",
+      copyright: "&copy; 2026 LOSPOR &middot; Продукт на PeriOp Laboratories &middot; AGPL-3.0",
     },
   },
 
@@ -237,7 +237,7 @@ export const CONTENT = {
         { href: "https://docs.lospor.org", text: "Documentation" },
         { href: "https://github.com/kaloyandjunow-prog", text: "GitHub" },
       ],
-      copyright: "&copy; 2026 LOSPOR &middot; AGPL-3.0",
+      copyright: "&copy; 2026 LOSPOR &middot; A PeriOp Laboratories product &middot; AGPL-3.0",
     },
   },
 };
